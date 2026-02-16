@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#2c3e50",
+    backgroundColor: "#ecf0f1",
     paddingVertical: 12,
     paddingHorizontal: 16,
     shadowColor: "#000",
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   logo: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#2c3e50",
   },
   navLinks: {
     flexDirection: "row",
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "#2c3e50",
   },
   navButtonText: {
     color: "#fff",

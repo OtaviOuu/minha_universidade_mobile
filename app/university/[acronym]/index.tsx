@@ -1,10 +1,11 @@
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   Text,
   View,
   StyleSheet,
   ActivityIndicator,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
@@ -43,6 +44,7 @@ const fetchTeacherDisciplines = async (
 };
 
 export default function UniversityDetails() {
+  const router = useRouter();
   const { acronym, name } = useLocalSearchParams<{
     acronym: string;
     name: string;
@@ -88,7 +90,13 @@ export default function UniversityDetails() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
-          <View style={styles.disciplineCard}>
+          <TouchableOpacity
+            style={styles.disciplineCard}
+            onPress={() =>
+              router.push(`/university/${acronym}/${item.id}` as const)
+            }
+            activeOpacity={0.7}
+          >
             <Text style={styles.disciplineId}>
               ID: {item.id.slice(0, 8)}...
             </Text>
@@ -104,7 +112,7 @@ export default function UniversityDetails() {
                 {item.attributes.discipline_id.slice(0, 8)}...
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>

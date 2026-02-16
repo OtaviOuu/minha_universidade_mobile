@@ -11,11 +11,17 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen 
-          name="university/[acronym]" 
-          options={{ 
+        <Stack.Screen
+          name="university/[acronym]/index"
+          options={{
             headerShown: false,
-          }} 
+          }}
+        />
+        <Stack.Screen
+          name="university/[acronym]/[reviewSlug]/index"
+          options={{
+            headerShown: false,
+          }}
         />
       </Stack>
     </QueryClientProvider>
