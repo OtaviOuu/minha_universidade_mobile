@@ -1,4 +1,5 @@
 import { Text, View, Image, StyleSheet, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 
 interface University {
@@ -44,22 +45,22 @@ export default function Index() {
 
   if (isLoading) {
     return (
-      <View style={[styles.container, styles.centerContent]}>
-        <ActivityIndicator size="large" color="#0066cc" />
-      </View>
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
+        <ActivityIndicator size="large" color="#2c3e50" />
+      </SafeAreaView>
     );
   }
 
   if (isError || !university) {
     return (
-      <View style={[styles.container, styles.centerContent]}>
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
         <Text>Não foi possível carregar a universidade</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.universityCard}>
         <Image
           style={styles.universityLogo}
@@ -70,7 +71,7 @@ export default function Index() {
         />
         <Text style={styles.universityName}>{university.attributes.name}</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
