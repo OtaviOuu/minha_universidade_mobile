@@ -25,23 +25,19 @@ interface ReviewsResponse {
   data: Review[];
 }
 
-const fetchReviews = async (reviewSlug: string): Promise<Review[]> => {
+const fetchReviews = async (teacherDisciplineId: string): Promise<Review[]> => {
   const response = await fetch(
-    `https://minha-universidade.onrender.com/api/json/reviews?teacher_discipline_id=${reviewSlug}`,
+    `https://minha-universidade.onrender.com/api/json/reviews?teacher_discipline_id=${teacherDisciplineId}`,
     {
       method: "GET",
-      headers: {
-        Accept: "application/vnd.api+json",
-      },
     },
   );
 
   if (!response.ok) {
-    console.log("Response status:", response.status);
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-
   const data: ReviewsResponse = await response.json();
+
   return data.data || [];
 };
 
@@ -78,8 +74,8 @@ const Badge = ({
 };
 
 export default function ReviewsPage() {
-  const { reviewSlug, acronym } = useLocalSearchParams<{
-    reviewSlug: string;
+  const { teacherDisciplineId, acronym } = useLocalSearchParams<{
+    teacherDisciplineId: string;
     acronym: string;
   }>();
 
@@ -88,8 +84,8 @@ export default function ReviewsPage() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["reviews", reviewSlug],
-    queryFn: () => fetchReviews(reviewSlug),
+    queryKey: ["reviews", teacherDisciplineId],
+    queryFn: () => fetchReviews(teacherDisciplineId),
     retry: false,
   });
 
@@ -112,7 +108,7 @@ export default function ReviewsPage() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Avaliações</Text>
+        <Text style={styles.title}>Avaliações: {teacherDisciplineId}</Text>
         <Text style={styles.subtitle}>
           {reviews?.length || 0} avaliações encontradas
         </Text>

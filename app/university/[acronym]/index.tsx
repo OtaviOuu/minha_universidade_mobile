@@ -15,6 +15,7 @@ interface TeacherDiscipline {
   attributes: {
     teacher_id: string;
     discipline_id: string;
+    slug: string;
   };
 }
 
@@ -25,21 +26,23 @@ interface TeacherDisciplinesResponse {
 const fetchTeacherDisciplines = async (
   acronym: string,
 ): Promise<TeacherDiscipline[]> => {
+  const params = new URLSearchParams({
+    "fields[teacher_discipline]": "id,teacher_id,discipline_id,slug",
+    university_acronym: acronym,
+  });
+
   const response = await fetch(
-    `https://minha-universidade.onrender.com/api/json/teacher-disciplines?fields%5Bteacher_discipline%5D=id%2Cteacher_id%2Cdiscipline_id&university_acronym=${acronym}`,
+    `https://minha-universidade.onrender.com/api/json/teacher-disciplines?${params.toString()}`,
     {
       method: "GET",
-      headers: {
-        Accept: "application/vnd.api+json",
-      },
     },
   );
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-
   const data: TeacherDisciplinesResponse = await response.json();
+
   return data.data || [];
 };
 
@@ -97,9 +100,7 @@ export default function UniversityDetails() {
             }
             activeOpacity={0.7}
           >
-            <Text style={styles.disciplineId}>
-              ID: {item.id.slice(0, 8)}...
-            </Text>
+            <Text style={styles.disciplineId}>{item.attributes.slug}</Text>
             <View style={styles.disciplineInfo}>
               <Text style={styles.infoLabel}>Professor ID:</Text>
               <Text style={styles.infoValue}>

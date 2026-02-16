@@ -18,7 +18,7 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
-          name="university/[acronym]/[reviewSlug]/index"
+          name="university/[acronym]/[teacherDisciplineId]/index"
           options={{
             headerShown: false,
           }}
