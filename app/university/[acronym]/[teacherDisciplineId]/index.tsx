@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   Text,
   View,
@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   FlatList,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
@@ -78,6 +79,7 @@ export default function ReviewsPage() {
     teacherDisciplineId: string;
     acronym: string;
   }>();
+  const router = useRouter();
 
   const {
     data: reviews,
@@ -119,38 +121,47 @@ export default function ReviewsPage() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
-          <View style={styles.reviewCard}>
-            <View style={styles.badgesContainer}>
-              <Badge
-                label="Didática"
-                value={item.attributes.didactics_rate}
-                type="rating"
-              />
-              <Badge
-                label="Provas"
-                value={item.attributes.exams_rate}
-                type="rating"
-              />
-              <Badge
-                label="Avaliação Geral"
-                value={item.attributes.geral_rating}
-                type="rating"
-              />
-            </View>
+          <TouchableOpacity
+            onPress={() =>
+              router.push(
+                `/university/${acronym}/${teacherDisciplineId}/reviewComments?reviewId=${item.id}`,
+              )
+            }
+            activeOpacity={0.7}
+          >
+            <View style={styles.reviewCard}>
+              <View style={styles.badgesContainer}>
+                <Badge
+                  label="Didática"
+                  value={item.attributes.didactics_rate}
+                  type="rating"
+                />
+                <Badge
+                  label="Provas"
+                  value={item.attributes.exams_rate}
+                  type="rating"
+                />
+                <Badge
+                  label="Avaliação Geral"
+                  value={item.attributes.geral_rating}
+                  type="rating"
+                />
+              </View>
 
-            <View style={styles.badgesContainer}>
-              <Badge
-                label="Cobra presença"
-                value={item.attributes["enforces_attendance?"]}
-                type="boolean"
-              />
-              <Badge
-                label="Recomenda"
-                value={item.attributes["recommends?"]}
-                type="boolean"
-              />
+              <View style={styles.badgesContainer}>
+                <Badge
+                  label="Cobra presença"
+                  value={item.attributes["enforces_attendance?"]}
+                  type="boolean"
+                />
+                <Badge
+                  label="Recomenda"
+                  value={item.attributes["recommends?"]}
+                  type="boolean"
+                />
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>

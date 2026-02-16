@@ -23,6 +23,12 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="university/[acronym]/[teacherDisciplineId]/reviewComments"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
     </QueryClientProvider>
   );
