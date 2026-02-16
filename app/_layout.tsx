@@ -1,10 +1,14 @@
 import { Stack } from "expo-router";
-import { View, Text } from "react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{}} />
-    </Stack>
+    <QueryClientProvider client={queryClient}>
+      <Stack>
+        <Stack.Screen name="index" options={{}} />
+      </Stack>
+    </QueryClientProvider>
   );
 }
