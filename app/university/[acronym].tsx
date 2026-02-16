@@ -1,5 +1,11 @@
 import { useLocalSearchParams } from "expo-router";
-import { Text, View, StyleSheet, ActivityIndicator, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,7 +21,9 @@ interface TeacherDisciplinesResponse {
   data: TeacherDiscipline[];
 }
 
-const fetchTeacherDisciplines = async (acronym: string): Promise<TeacherDiscipline[]> => {
+const fetchTeacherDisciplines = async (
+  acronym: string,
+): Promise<TeacherDiscipline[]> => {
   const response = await fetch(
     `https://minha-universidade.onrender.com/api/json/teacher-disciplines?fields%5Bteacher_discipline%5D=id%2Cteacher_id%2Cdiscipline_id&university_acronym=${acronym}`,
     {
@@ -35,9 +43,16 @@ const fetchTeacherDisciplines = async (acronym: string): Promise<TeacherDiscipli
 };
 
 export default function UniversityDetails() {
-  const { acronym, name } = useLocalSearchParams<{ acronym: string; name: string }>();
+  const { acronym, name } = useLocalSearchParams<{
+    acronym: string;
+    name: string;
+  }>();
 
-  const { data: teacherDisciplines, isLoading, isError } = useQuery({
+  const {
+    data: teacherDisciplines,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["teacherDisciplines", acronym],
     queryFn: () => fetchTeacherDisciplines(acronym),
     retry: false,
@@ -74,14 +89,20 @@ export default function UniversityDetails() {
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
           <View style={styles.disciplineCard}>
-            <Text style={styles.disciplineId}>ID: {item.id.slice(0, 8)}...</Text>
+            <Text style={styles.disciplineId}>
+              ID: {item.id.slice(0, 8)}...
+            </Text>
             <View style={styles.disciplineInfo}>
               <Text style={styles.infoLabel}>Professor ID:</Text>
-              <Text style={styles.infoValue}>{item.attributes.teacher_id.slice(0, 8)}...</Text>
+              <Text style={styles.infoValue}>
+                {item.attributes.teacher_id.slice(0, 8)}...
+              </Text>
             </View>
             <View style={styles.disciplineInfo}>
               <Text style={styles.infoLabel}>Disciplina ID:</Text>
-              <Text style={styles.infoValue}>{item.attributes.discipline_id.slice(0, 8)}...</Text>
+              <Text style={styles.infoValue}>
+                {item.attributes.discipline_id.slice(0, 8)}...
+              </Text>
             </View>
           </View>
         )}
