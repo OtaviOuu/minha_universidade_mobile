@@ -1,6 +1,14 @@
-import { Text, View, Image, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 
 interface University {
   id: string;
@@ -33,6 +41,8 @@ const fetchUniversity = async (): Promise<University> => {
 };
 
 export default function Index() {
+  const router = useRouter();
+
   const {
     data: university,
     isLoading,
@@ -42,6 +52,18 @@ export default function Index() {
     queryFn: fetchUniversity,
     retry: false,
   });
+
+  const handleCardPress = () => {
+    if (university) {
+      router.push({
+        pathname: "/university/[acronym]",
+        params: {
+          acronym: university.attributes.acronym,
+          name: university.attributes.name,
+        },
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -61,7 +83,7 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.universityCard}>
+      <TouchableOpacity style={styles.universityCard} onPress={handleCardPress}>
         <Image
           style={styles.universityLogo}
           source={{
@@ -70,7 +92,7 @@ export default function Index() {
           resizeMode="contain"
         />
         <Text style={styles.universityName}>{university.attributes.name}</Text>
-      </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
